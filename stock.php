@@ -1,5 +1,8 @@
 <?php
-require 'function.php';
+require 'ceklogin.php';
+//hitung jumlah Barang
+$h1 = mysqli_query($conn,"select * from produk");
+$h2 = mysqli_num_rows($h1); //jumlah Barang
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,14 +59,14 @@ require 'function.php';
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Data Pesanan</h1>
+                        <h1 class="mt-4">Data Barang</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Selamat Datang</li>
                         </ol>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">
-                                    <div class="card-body">Jumlah Barang :</div>
+                                    <div class="card-body">Jumlah Barang : <?=$h2;?></div>
                                 </div>
                             </div>
                         </div>

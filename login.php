@@ -1,5 +1,14 @@
 <?php
 require 'function.php';
+
+
+if(!isset($_SESSION['login'])){
+    //udah login
+}else  {
+    //sudah login login
+    header('location:index.php');
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

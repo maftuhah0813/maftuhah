@@ -1,5 +1,5 @@
 <?php
-require 'function.php';
+require 'ceklogin.php';
 $idp = $_GET['idp'];
 
 if(isset($_GET['idp'])){
@@ -11,6 +11,7 @@ if(isset($_GET['idp'])){
 }else{
     header('location:index.php');
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -98,7 +99,7 @@ if(isset($_GET['idp'])){
                                     <tbody>
                                     <?php
                                     $get = mysqli_query($conn,"select * from detailpesanan p, produk pr where p.idproduk=pr.
-                                    idproduk ");
+                                    idproduk and idpesanan='$idp'");
                                     $i = 1;
 
                                     while($p=mysqli_fetch_array($get)){
@@ -112,9 +113,9 @@ if(isset($_GET['idp'])){
                                         <tr>
                                             <td><?=$i++;?></td>
                                             <td><?=$namaproduk;?></td>
-                                            <td><?=$harga;?></td>
-                                            <td><?=$qty;?></td>
-                                            <td><?=$subtotal;?></td>
+                                            <td>Rp<?=number_format($harga);?></td>
+                                            <td><?=number_format($qty);?></td>
+                                            <td>Rp<?=number_format($subtotal);?></td>
                                             <td> Edit Delete</td>
                                         </tr>
 
@@ -182,7 +183,7 @@ if(isset($_GET['idp'])){
 
                         ?>
 
-                        <option value="<?=$idproduk;?>"><?=$namaproduk;?>  - <?=$deskripsi;?></option>
+                        <option value="<?=$idproduk;?>"><?=$namaproduk;?>  - <?=$deskripsi;?> (Stock: <?=$stock;?>)</option>
 
 
                         <?php
@@ -191,7 +192,7 @@ if(isset($_GET['idp'])){
 
                         </select>
 
-                        <input type="number" name="qty" class="form-control mt-4" placeholder="Jumlah">
+                        <input type="number" name="qty" class="form-control mt-4" placeholder="Jumlah" min="1" required>
                         <input type="hidden" name="idp" value="<?=$idp;?>">
 
                     </div>
