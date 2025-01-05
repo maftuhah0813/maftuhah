@@ -104,13 +104,19 @@ require 'function.php';
                                     $tanggal = $p['tanggal'];
                                     $namapelanggan = $p['namapelanggan'];
                                     $alamat = $p['alamat'];
+
+                                    //hitung jumlah
+                                    $hitungjumlah = mysqli_query($conn,"select * from detailpesanan where idpesanan='$idorder'");
+                                    $jumlah = mysqli_num_rows( $hitungjumlah);
+
+
                                     ?>
 
                                         <tr>
                                             <td><?=$idorder;?></td>
                                             <td><?=$tanggal;?></td>
                                             <td><?=$namapelanggan;?> - <?=$alamat;?></td>
-                                            <td>Jumlah</td>
+                                            <td><?=$jumlah;?></td>
                                             <td><a href="view.php?idp=<?=$idorder;?>" class="btn btn-primary" target="blank"> Tampilkan </a> Delete</td>
                                         </tr>
 

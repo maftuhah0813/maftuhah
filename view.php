@@ -97,15 +97,16 @@ if(isset($_GET['idp'])){
                                     </thead>
                                     <tbody>
                                     <?php
-                                    $get = mysqli_query($conn,"select * from detailpesanan p, produk pr where p.idproduk=pr.idproduk");
+                                    $get = mysqli_query($conn,"select * from detailpesanan p, produk pr where p.idproduk=pr.
+                                    idproduk ");
                                     $i = 1;
-
 
                                     while($p=mysqli_fetch_array($get)){
                                     $qty = $p['qty'];
                                     $harga = $p['harga'];
                                     $namaproduk = $p['namaproduk'];
                                     $subtotal = $qty*$harga;
+
                                     ?>
 
                                         <tr>
