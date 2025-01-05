@@ -103,21 +103,61 @@ if(isset($_GET['idp'])){
                                     $i = 1;
 
                                     while($p=mysqli_fetch_array($get)){
+                                    $idpr = $p['idproduk'];
+                                    $iddp = $p['iddetailpesanan'];
                                     $qty = $p['qty'];
                                     $harga = $p['harga'];
                                     $namaproduk = $p['namaproduk'];
+                                    $desc = $p['deskripsi'];
                                     $subtotal = $qty*$harga;
 
                                     ?>
 
                                         <tr>
                                             <td><?=$i++;?></td>
-                                            <td><?=$namaproduk;?></td>
+                                            <td><?=$namaproduk;?> (<?=$desc;?>)</td>
                                             <td>Rp<?=number_format($harga);?></td>
                                             <td><?=number_format($qty);?></td>
                                             <td>Rp<?=number_format($subtotal);?></td>
-                                            <td> Edit Delete</td>
-                                        </tr>
+                                            <td> Edit 
+                                            <!-- Tombol Hapus -->
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<?=$idpr;?>">
+                                            Hapus
+                                        </button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="deleteModal<?=$idpr;?>" tabindex="-1" aria-labelledby="deleteModalLabel<?=$idpr;?>" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="deleteModalLabel<?=$idpr;?>">Konfirmasi Hapus Barang</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+
+                                                    <form method="post">
+
+                                                        <!-- Modal Body -->
+                                                        <div class="modal-body">
+                                                            Apakah Anda yakin ingin menghapus barang ini?
+                                                            <input type="hidden" name="idp" value="<?= htmlspecialchars($iddp); ?>">
+                                                            <input type="hidden" name="idpr" value="<?= htmlspecialchars($idpr); ?>">
+                                                            <input type="hidden" name="idorder" value="<?= htmlspecialchars($idp); ?>">
+                                                        </div>
+
+                                                        <!-- Modal Footer -->
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success" name="hapusprodukpesanan">Ya, Hapus</button>
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Batal</button>
+                                                        </div>
+
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
 
                                     <?php
                                     };//end of while

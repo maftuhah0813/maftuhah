@@ -129,4 +129,78 @@ if(isset($_POST['addproduk'])){
     }
 }
 
+
+if(isset($_POST['barangmasuk'])){
+    $idproduk = $_POST['idproduk'];
+    $qty = $_POST['qty'];
+
+    if(empty($idproduk) || empty($qty)){
+        echo '
+        <script>alert("Produk dan jumlah harus diisi!");
+        window.location.href="masuk.php"
+        </script>
+        ';
+    } else {
+        $insertb = mysqli_query($conn,"INSERT INTO masuk (idproduk, qty) VALUES('$idproduk','$qty')");
+
+        if($insertb){
+            header('location: masuk.php');
+        } else {
+            echo '
+            <script>alert("Gagal menambah data.");
+            window.location.href="masuk.php"
+            </script>
+            ';
+        }
+    }
+}
+
+// hapus produk pesanan
+if(isset($_POST['hapusprodukpesanan'])){
+    $idp = $_POST['idp'];
+    $idpr = $_POST['idpr'];
+    $idorder = $_POST['idorder'];
+
+    //cek qty sekarang 
+    $cek1 = mysqli_query($conn,"select * from detailpesanan where iddetailpesanan='$idp'");
+    $cek2 = mysqli_fetch_array($cek1);
+    $qtysekarang = $cek2['qty'];
+
+    //cek stock sekarang
+    $cek3 = mysqli_query($conn,"select * from produk where idproduk='$idpr'");
+    $cek4 = mysqli_fetch_array($cek3);
+    $stocksekarang = $cek4['stock'];
+
+    $hitung = $stocksekarang + $qtysekarang;
+
+    // Update stock produk
+    $update = mysqli_query($conn,"update produk set stock='$hitung' where idproduk='$idpr'");
+
+    // Cek apakah data ada sebelum menghapus
+    $cekPesanan = mysqli_query($conn, "select * from detailpesanan where idproduk='$idpr' and iddetailpesanan='$idp'");
+    if (mysqli_num_rows($cekPesanan) > 0) {
+        $hapus = mysqli_query($conn,"delete from detailpesanan where idproduk='$idpr' and iddetailpesanan='$idp'");
+    } else {
+        echo '
+        <script>alert("Produk tidak ditemukan!");
+        window.location.href="view.php?idp='.$idp.'"
+        </script>
+        ';
+        exit;
+    }
+
+    // Cek apakah update dan hapus berhasil
+    if($update && $hapus){
+        header('location:view.php?idp='.$idorder);
+    } else {
+        echo '
+        <script>alert("Gagal menghapus barang");
+        window.location.href="view.php?idp='.$idorder.'"
+        </script>
+        ';
+    }
+}
+
+
+
 ?>
