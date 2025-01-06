@@ -11,7 +11,7 @@ if(isset($_POST['login'])){
     $username = $_POST['username'];
     $password = $_POST['password']; 
 
-    $check = mysqli_query($conn," SELECT * FROM user WHERE username='$username' and password='$password' ");
+    $check = mysqli_query($conn," select * from user where username='$username' and password='$password' ");
     $hitung = mysqli_num_rows($check);
 
     if($hitung>0){
@@ -141,7 +141,7 @@ if(isset($_POST['barangmasuk'])){
         </script>
         ';
     } else {
-        $insertb = mysqli_query($conn,"INSERT INTO masuk (idproduk, qty) VALUES('$idproduk','$qty')");
+        $insertb = mysqli_query($conn,"insert into masuk (idproduk, qty) values('$idproduk','$qty')");
 
         if($insertb){
             header('location: masuk.php');
@@ -201,6 +201,90 @@ if(isset($_POST['hapusprodukpesanan'])){
     }
 }
 
+
+// Edit Barang
+if (isset($_POST['editbarang'])) {
+    // Pastikan variabel POST terisi dengan aman
+    $namaproduk =  $_POST['namaproduk'];
+    $deskripsi =$_POST['deskripsi'];
+    $harga = $_POST['harga'];
+    $idproduk = $_POST['idproduk'];
+
+    // Query untuk update data produk
+    $query = mysqli_query($conn, "UPDATE produk SET namaproduk='$namaproduk', deskripsi='$deskripsi', harga='$harga' WHERE idproduk='$idproduk'");
+
+    // Cek apakah query berhasil
+    if ($query) {
+        header('Location: stock.php');
+    } else {
+        echo '
+            <script>
+                alert("Gagal Edit");
+                window.location.href="stock.php";
+            </script>
+        ';
+    }
+}
+
+//hapus barang
+if(isset($_POST['hapusbarang'])){
+    $idproduk = $_POST['idproduk'];
+
+    $query = mysqli_query($conn, "delete from produk where idproduk='$idproduk'");
+
+    if ($query) {
+        header('Location: stock.php');
+    } else {
+        echo '
+            <script>
+                alert("Gagal Edit");
+                window.location.href="stock.php";
+            </script>
+        ';
+    }
+}
+
+// Edit Pelanggan
+if (isset($_POST['editpelanggan'])) {
+    // Pastikan variabel POST terisi dengan aman
+    $namapelanggan =  $_POST['namapelanggan'];
+    $notelp =$_POST['notelp'];
+    $alamat = $_POST['alamat'];
+    $idpelanggan = $_POST['idpelanggan'];
+
+    // Query untuk update data produk
+    $query = mysqli_query($conn, "UPDATE pelanggan SET namapelanggan='$namapelanggan', notelp='$notelp', alamat='$alamat' WHERE idpelanggan='$idpelanggan'");
+
+    // Cek apakah query berhasil
+    if ($query) {
+        header('Location: pelanggan.php');
+    } else {
+        echo '
+            <script>
+                alert("Gagal Edit");
+                window.location.href="pelanggan.php";
+            </script>
+        ';
+    }
+}
+
+//hapus pelanggan
+if(isset($_POST['hapuspelanggan'])){
+    $idpelanggan = $_POST['idpelanggan'];
+
+    $query = mysqli_query($conn, "delete from pelanggan where idpelanggan='$idpelanggan'");
+
+    if ($query) {
+        header('Location: pelanggan.php');
+    } else {
+        echo '
+            <script>
+                alert("Gagal menghapus");
+                window.location.href="pelanggan.php";
+            </script>
+        ';
+    }
+}
 
 
 ?>
