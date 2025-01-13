@@ -286,5 +286,63 @@ if(isset($_POST['hapuspelanggan'])){
     }
 }
 
+//hapus pesanan
+if(isset($_POST['hapuspesanan'])){
+    $idorder = $_POST['idorder'];
+
+    $query = mysqli_query($conn, "delete from pesanan where idorder='$idorder'");
+
+    if ($query) {
+        header('Location: index.php');
+    } else {
+        echo '
+            <script>
+                alert("Gagal menghapus");
+                window.location.href="index.php";
+            </script>
+        ';
+    }
+}
+
+// Edit barang masuk
+if (isset($_POST['editbarangmasuk'])) {
+    $namaproduk = $_POST['namaproduk']; 
+    $qty = $_POST['qty'];
+    $idmasuk = $_POST['idmasuk'];
+
+    // Query untuk update data produk
+    $query = mysqli_query($conn, "UPDATE masuk SET namaproduk='$namaproduk', qty='$qty' WHERE idmasuk='$idmasuk'");
+
+    if ($query) {
+        header('Location:masuk.php');
+    } else {
+        echo '
+            <script>
+                alert("Gagal Edit:");
+                window.location.href="masuk.php";
+            </script>
+        ';
+    }
+}
+
+
+// Hapus Barang Masuk
+if (isset($_POST['hapusbarangmasuk'])) {
+    $idmasuk = $_POST['idmasuk'];
+
+    $query = mysqli_query($conn, "DELETE FROM masuk WHERE idmasuk='$idmasuk'");
+
+    if ($query) {
+        header('Location:masuk.php');
+    } else {
+        echo '
+            <script>
+                alert("Gagal Menghapus");
+                window.location.href="masuk.php";
+            </script>
+        ';
+    }
+}
+
 
 ?>

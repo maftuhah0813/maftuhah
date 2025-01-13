@@ -11,9 +11,9 @@ require 'ceklogin.php';
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Barang Masuk</title>
-        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/styles.css" rel="stylesheet" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -95,6 +95,7 @@ require 'ceklogin.php';
                                     $deskripsi = $p['deskripsi'];
                                     $qty = $p['qty'];
                                     $tanggal = $p['tanggalmasuk'];
+                                    $idmasuk = $p['idmasuk']
                                     
                                     ?>
 
@@ -104,8 +105,77 @@ require 'ceklogin.php';
                                             <td><?=$deskripsi;?></td>
                                             <td><?=$qty;?></td>
                                             <td><?=$tanggal;?></td>
-                                            <td>Edit Delete</td>
+                                            <td>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#edit<?=$idmasuk;?>">
+                                                Edit
+                                            </button>
+
+                                            <!-- Tombol untuk Delete -->
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?=$idmasuk;?>">
+                                                Delete
+                                            </button>
+                                            </td>
                                         </tr>
+
+                                        <!--  Modal Edit -->
+                                        <div class="modal" id="edit<?=$idmasuk;?>">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Ubah <?=$namaproduk;?></h4>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <form method="post">
+                                                <!-- Modal body -->
+                                                <div class="modal-body">
+                                                    <input type="text" name="namaproduk" class="form-control" placeholder="Nama Produk" value="<?= htmlspecialchars($namaproduk); ?>" required>
+                                                    <input type="text" name="qty" class="form-control mt-2" placeholder="Jumlah" value="<?= htmlspecialchars($qty); ?>" required>
+                                                    <input type="hidden" name="idmasuk" value="<?= htmlspecialchars($idmasuk); ?>">
+                                                </div>
+                                                <!-- Modal footer -->
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-success" name="editpelanggan">Submit</button>
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
+
+
+                                            </div>
+                                        </div>
+                                        </div>
+                                       
+                                        <!-- Modal Delete -->
+                                        <div class="modal fade" id="delete<?=$idmasuk;?>" tabindex="-1" aria-labelledby="deleteLabel<?=$idmasuk;?>" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="deleteLabel<?=$idmasuk;?>">Hapus <?=$namaproduk;?></h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+
+                                                <form method="post">
+                                                    <!-- Modal Body -->
+                                                    <div class="modal-body">
+                                                        Apakah anda yakin ingin menghapusnya?
+                                                        <input type="hidden" name="idmasuk" value="<?= htmlspecialchars($idmasuk); ?>">
+                                                    </div>
+
+                                                    <!-- Modal Footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" name="hapusbarangmasuk">Ya</button>
+                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                            </div>
+                                        </div>
+
 
                                     <?php
                                     };//end of while
